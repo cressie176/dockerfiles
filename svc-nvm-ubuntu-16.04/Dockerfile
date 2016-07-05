@@ -2,10 +2,15 @@ FROM ubuntu:16.04
 
 # Prepare ubuntu
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update
 RUN locale-gen en_GB en_GB.UTF-8
-RUN apt-get install -y curl git man dnsutils build-essential
 RUN ln -sf /bin/bash /bin/sh
+
+# Install packages
+ENV APT_PACKAGES curl git man dnsutils build-essential
+RUN apt-get update && \
+    apt-get install -y $APT_PACKAGES && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Configure standard environment
 WORKDIR /root/service
