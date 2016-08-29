@@ -48,6 +48,4 @@ ONBUILD RUN NODE_ENV=development npm install && npm cache clean
 # Copy everything not excluded by .gitignore and .dockerignore
 ONBUILD COPY ./ /root/service/
 
-# Copy manifest.json to force at least one new layer in the image
-ONBUILD COPY manifest.json /root/service/
 
