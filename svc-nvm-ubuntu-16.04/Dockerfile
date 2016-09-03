@@ -16,7 +16,7 @@ RUN apt-get update && \
 ENV PYTHON=/usr/bin/python2.7
 
 # Configure standard environment
-WORKDIR /root/service
+WORKDIR /opt
 
 # Configure node
 ENV NODE_ENV production
@@ -25,13 +25,13 @@ ENV NODE_ENV production
 RUN curl -L https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | HOME=/root bash
 
 # Invalidate cache if .nvmrc changes
-ONBUILD COPY .nvmrc /root/service/.nvmrc-temp
+ONBUILD COPY .nvmrc /opt/.nvmrc-temp
 
 # Make nvm install node specified in .nvmrc
 ONBUILD RUN source /root/.nvm/nvm.sh \
 
   # HACK: Without this, sourcing of nvm.sh would fail. nvm.sh would try to load the version in .nvmrc that is not yet installed
-  && mv /root/service/.nvmrc-temp /root/service/.nvmrc \
+  && mv /opt/.nvmrc-temp /opt/.nvmrc \
 
   # Install nodejs version specified in .nvmrc
   && nvm install \
@@ -43,12 +43,12 @@ ONBUILD RUN source /root/.nvm/nvm.sh \
 ONBUILD COPY .npmrc /root/.npmrc
 
 # npm-shrinkwrap.json and package.json are used to bust the cache
-ONBUILD COPY npm-shrinkwrap.json /root/service/npm-shrinkwrap.json
-ONBUILD COPY package.json /root/service/package.json
+ONBUILD COPY npm-shrinkwrap.json /opt/npm-shrinkwrap.json
+ONBUILD COPY package.json /opt/package.json
 
 ONBUILD RUN NODE_ENV=development npm install && npm cache clean
 
 # Copy everything not excluded by .gitignore and .dockerignore
-ONBUILD COPY ./ /root/service/
+ONBUILD COPY ./ /opt/
 
 
