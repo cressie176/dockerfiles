@@ -1,7 +1,7 @@
 version: '2'
 services:
 
-  svc-nvm-ubuntu-16.04:
+  svc-nvm-ubuntu-16.04.1:
     build:
       context: svc-nvm-ubuntu-16.04
       dockerfile: Dockerfile
