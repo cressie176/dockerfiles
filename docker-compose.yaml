@@ -1,0 +1,9 @@
+version: '2'
+services:
+
+  svc-nvm-ubuntu-16.04:
+    build:
+      context: svc-nvm-ubuntu-16.04
+      dockerfile: Dockerfile
+    image: quay.io/guidesmiths/svc-nvm-ubuntu-16.04
+
