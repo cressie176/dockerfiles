@@ -2,15 +2,16 @@ FROM ubuntu:16.04
 
 # Prepare ubuntu
 ENV DEBIAN_FRONTEND noninteractive
-RUN locale-gen en_GB en_GB.UTF-8
-RUN ln -sf /bin/bash /bin/sh
 
 # Install packages
-ENV APT_PACKAGES curl git man vim dnsutils tcpdump python2.7 libpq-dev build-essential
+ENV APT_PACKAGES curl git man vim dnsutils tcpdump python2.7 libpq-dev build-essential locales
 RUN apt-get update && \
     apt-get install -y $APT_PACKAGES && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN locale-gen en_GB en_GB.UTF-8
+RUN ln -sf /bin/bash /bin/sh
 
 # iconv, required by body-parser needs Python >= v2.5.0 & < 3.0.0.
 ENV PYTHON=/usr/bin/python2.7
